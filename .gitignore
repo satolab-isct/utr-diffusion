@@ -1,0 +1,49 @@
+# --- Python cache ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pytest_cache/
+
+# --- Virtual / local env directories ---
+env/
+.venv/
+venv/
+conda_env/
+.env
+.envrc
+
+# --- IDE / editor ---
+.idea/
+.vscode/
+*.code-workspace
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Data & experiment artifacts (大文件) ---
+data/
+checkpoints/
+runs/
+logs/
+save/
+extension_save/
+repaint_save/
+wandb/
+torch/
+src_backup_*/
+
+# --- Logs ---
+*.log
+
+# --- Model / large binary files ---
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.npz
+*.pkl
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
