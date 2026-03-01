@@ -47,3 +47,4 @@ src_backup_*/
 # --- OS junk ---
 .DS_Store
 Thumbs.db
+*.safetensors
