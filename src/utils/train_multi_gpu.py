@@ -138,8 +138,7 @@ class TrainLoop_multi_gpu(BasicTrainLoop):
     def sample(self, epoch, write_fasta=True):
         # use EMA model
         device = self.accelerator.device
-        model_for_sampling = self.ema_model if hasattr(self, "ema_model") else self.model
-        model_for_sampling = self.accelerator.unwrap_model(model_for_sampling)
+        model_for_sampling = self.accelerator.unwrap_model(self.ema_model)
         model_for_sampling.to(device)
         model_for_sampling.eval()
 

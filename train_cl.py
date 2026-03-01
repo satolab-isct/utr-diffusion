@@ -4,7 +4,7 @@ from src.models.diffusion_cml import Diffusion_Continuous_Multi_Labels as Diffus
 from src.models.unet_cml import UNet_Continuous_Multi_Labels as UNet_CL
 #from src.utils.train_single_gpu import TrainLoop_single_gpu as TrainLoop
 from src.utils.train_multi_gpu import TrainLoop_multi_gpu as TrainLoop
-from src.experiment.exp_target_labels import mrl_target_values, mfe_target_values
+from src.experiment.exp_target_labels import mrl_target_values_sweep, mfe_target_values_sweep
 
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='tensorflow')
@@ -53,7 +53,7 @@ def train_continuous_label():
         batch_size=6000,
         num_workers = 24,
         learning_rate=1e-4,
-        tgt_values = mfe_target_values,
+        tgt_values = mfe_target_values_sweep,
     ).train_loop()
 
 if __name__ == "__main__":

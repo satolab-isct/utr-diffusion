@@ -4,16 +4,9 @@ from collections import defaultdict
 from scipy.stats import wasserstein_distance
 from torch.backends.opt_einsum import strategy
 
-from .scheduler import get_schedule_jump
+from .scheduler import get_schedule_jump, schedule_jump_params, schedule_no_jump_params
 from tqdm.auto import tqdm
 from .utils import get_amino_images_for_alter_codons, build_gt_from_image_and_pos
-
-schedule_jump_params = {
-    'jump_length': 10, # jump length for each jump
-    'jump_n_sample': 10, # jump frequency for every n steps
-    'n_sample': 1,
-    't_T': 200
-}
 
 # this repaint sampler works for continuous multi-label generation
 class RePaint_Amino_Continuous_Multi_Labels:
@@ -33,18 +26,19 @@ class RePaint_Amino_Continuous_Multi_Labels:
         self.seq_len = seq_len
         self.cond_weight = cond_weight
         self.tgt_labels = tgt_labels
-        self.num_tgt_labels = len(tgt_labels)
+        self.num_joint_class = len(tgt_labels)
+        self.label_dim = 1 if isinstance(self.tgt_labels[0], (float, int)) else len(self.tgt_labels[0])
         self.return_all = return_all
-        self.shape = [sample_bs * self.num_tgt_labels] + [1, 4, seq_len]
+        self.shape = [sample_bs * self.num_joint_class] + [1, 4, seq_len]
         self.strategy = strategy
         self.stop_point = stop_point
         self.skip_frames = skip_frames
 
     def p_resample(self, gt, mask, tgt_aminos, pos_list):
-        labels = [[mrl, mfe] for mrl, mfe in self.tgt_labels for _ in range(self.sample_bs)]
+        labels = [joint_label for joint_label in self.tgt_labels for _ in range(self.sample_bs)]
         labels = torch.tensor(labels, dtype=torch.float, device=self.device)
-        gt = gt.expand(self.sample_bs * self.num_tgt_labels, -1, -1, -1).to(self.device)
-        mask = mask.expand(self.sample_bs * self.num_tgt_labels, -1, -1, -1).to(self.device)
+        gt = gt.expand(self.sample_bs * self.num_joint_class, -1, -1, -1).to(self.device)
+        mask = mask.expand(self.sample_bs * self.num_joint_class, -1, -1, -1).to(self.device)
         all_amino_images =  get_amino_images_for_alter_codons(tgt_aminos, with_padding=True).to(self.device)
 
         result = {'samples': [], 'forward_steps': [], 'backward_steps': []}
@@ -75,7 +69,10 @@ class RePaint_Amino_Continuous_Multi_Labels:
 
             context_mask = torch.concat([torch.ones_like(labels), torch.zeros_like(labels)], dim=0).to(self.device)
             # double the batch and make 0 index unconditional
-            labels = labels.repeat(2, 1)
+            if labels.ndim == 1:
+                labels = labels.unsqueeze(1)  # (B,1)
+
+            labels = labels.repeat(2, 1)  # (2B, D)
 
             for t_last, t_cur in time_pairs:
                 if t_cur < t_last:  # reverse

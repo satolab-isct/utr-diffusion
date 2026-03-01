@@ -15,8 +15,8 @@ warnings.filterwarnings('ignore', category=FutureWarning, module='torch')
 
 def train():
     #data = load_data(data_path="data/MFE_30k_class_3_[-15, -7.5, 0.0].csv", split_ratio=0.05, label_type="MFE_label")
-    #data = load_data(data_path="data/MRL_100k_class_3_[4, 6, 8].csv", split_ratio=0.05, label_type="MRL_label")
-    data = load_data_without_dummy_label(data_path="data/MRL_MFE_continuous_967k.csv", split_ratio=0.05)
+    data = load_data(data_path="data/MRL_100k_class_3_[4, 6, 8].csv", split_ratio=0.05, label_type="MRL_label")
+    #data = load_data_without_dummy_label(data_path="data/MRL_MFE_continuous_967k.csv", split_ratio=0.05)
     unet = UNet(
         dim=200, # 200
         channels=1,
@@ -46,11 +46,11 @@ def train():
         data=data,
         model=diffusion,
         accelerator=accelerator,
-        end_epoch=1200,
+        end_epoch=2000,
         log_step=5,   # how many steps to show the log トレーニングログを表示するステップ数
         valid_epoch=5,
         sample_epoch=200,
-        save_epoch=1200,
+        save_epoch=2000,
         save_name=model_save_name,
         batch_size=6000,
         num_workers = 24,

@@ -2,6 +2,7 @@ from typing import Any
 import torch
 import os
 from accelerate import Accelerator
+from tensorflow.python.ops.gen_experimental_dataset_ops import experimental_latency_stats_dataset_eager_fallback
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from functools import partial
@@ -126,7 +127,6 @@ class TrainLoop_single_gpu(BasicTrainLoop):
         self.log_update(mode='valid', epoch=epoch)
 
 
-
     def sample(self, epoch, write_fasta=True):
         self.model.eval()
         sample_fn = partial(
@@ -135,7 +135,7 @@ class TrainLoop_single_gpu(BasicTrainLoop):
             class_num=self.num_classes,
             cond_weight=self.model.cond_weight,
             target_values=self.tgt_values,
-            device=self.accelerator.device
+            device= self.accelerator.device
         )
         with torch.no_grad():
             with self.accelerator.autocast():
@@ -152,11 +152,36 @@ class TrainLoop_single_gpu(BasicTrainLoop):
                 print('Saving fasta file...')
                 write_to_fasta(sequences=seqs, folder_name=self.save_name, epoch=epoch)
 
+
+    def sample_offline(self, savename=None):
+        device = self.accelerator.device
+        model_for_sampling = self.ema_model if self.ema_checkpoint_load else self.model
+        print("Sampling with:", "EMA" if self.ema_checkpoint_load else "RAW")
+        model_for_sampling.to(device)
+        model_for_sampling.eval()
+        sample_fn = partial(
+            inference,
+            diffusion_model=model_for_sampling,
+            class_num=self.num_classes,
+            cond_weight=self.model.cond_weight,
+            target_values=self.tgt_values,
+            device=device
+        )
+        with torch.no_grad():
+            print("accelerator.mixed_precision =", self.accelerator.mixed_precision)
+            with self.accelerator.autocast():
+                print("torch.is_autocast_enabled() =", torch.is_autocast_enabled())
+                if torch.cuda.is_available():
+                    print("torch.get_autocast_gpu_dtype() =", torch.get_autocast_gpu_dtype())
+                print("\nGenerating synthetic sequences...")
+                seqs = sample_fn()
+                print('Saving fasta file...')
+                write_to_fasta(sequences=seqs, folder_name=self.save_name, trial_name=savename)
+
     
-    def load_checkpoint_then_do_sample(self, checkpoint_path):
+    def load_checkpoint_then_do_sample(self, checkpoint_path, savename=None):
         self.load_checkpoint(checkpoint_path)
-        self.model = self.accelerator.prepare(self.model)
-        self.sample(epoch=self.start_epoch, write_fasta=True)
+        self.sample_offline(savename=savename)
         
 
 

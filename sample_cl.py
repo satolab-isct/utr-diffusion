@@ -1,4 +1,6 @@
 from src.experiment.exp_target_labels import mrl_target_values_sweep, mfe_target_values_sweep
+from src.experiment.exp_target_labels import mrl_target_values_3, mrl_target_values_5, mrl_target_values_7, mrl_target_extreme
+from src.experiment.exp_target_labels import mfe_target_values_3, mfe_target_values_5, mfe_target_values_7
 from accelerate import Accelerator
 from src.models.diffusion_cml import Diffusion_Continuous_Multi_Labels as Diffusion_CL
 from src.models.unet_cml import UNet_Continuous_Multi_Labels as UNet_CL
@@ -27,9 +29,20 @@ def sample_continuous_single_label():
         uncondition_prop=0.2,
     )
 
-    accelerator = Accelerator()
-    model_save_name = "save/MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch_sample_sweep"
-    checkpoint_path = "checkpoints/MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt"
+    accelerator = Accelerator(mixed_precision="fp16")
+    ## continuous single label: MFE sweep exp
+    # "save/MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch_sample_sweep"
+    # checkpoint_path = "checkpoints/MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt"
+
+    # # continuous single label: MFE with 3 target values
+    # model_save_name = "save/MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch_sample_class_3_[-15, -10, -5]"
+    # checkpoint_path = "checkpoints/MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt"
+    # target_values = mfe_target_values_3
+
+    # continuous single label: MRL extreme value
+    model_save_name = 'save/MRL_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch_sample_MRL_minimum'
+    checkpoint_path = "checkpoints/MRL_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt"
+    target_values = mrl_target_extreme
 
     TrainLoop(
         data={},
@@ -42,11 +55,11 @@ def sample_continuous_single_label():
         save_epoch=2000,
         save_name=model_save_name,
         batch_size=5200,
-        num_workers = 16,
+        num_workers = 2,
         learning_rate=1e-4,
         do_gumbel_softmax=False,
-        tgt_values = mfe_target_values_sweep,
-    ).load_checkpoint_then_do_sample(checkpoint_path)
+        tgt_values = target_values,
+    ).load_checkpoint_then_do_sample(checkpoint_path, 'UTR-Diffusion_MRL_minimum') # '3 target values_fp16'
 
 if __name__ == "__main__":
     sample_continuous_single_label()

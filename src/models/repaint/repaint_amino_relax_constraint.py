@@ -3,16 +3,8 @@ from einops import rearrange
 from lxml.objectify import NoneElement
 from tqdm.auto import tqdm
 
-from src.models.repaint.scheduler import get_schedule_jump
+from src.models.repaint.scheduler import get_schedule_jump, schedule_jump_params
 from src.models.repaint.utils import get_amino_images_for_alter_codons, build_gt_from_image_and_pos
-
-schedule_jump_params = {
-    'jump_length': 10,  # jump length for each jump
-    'jump_n_sample': 10,  # jump frequency for every n steps
-    'n_sample': 1,
-    't_T': 200
-}
-
 
 # this repaint sampler works for continuous multi-label generation with relaxation constraint
 class RePaint_Amino_Relaxed:

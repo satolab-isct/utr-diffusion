@@ -42,9 +42,9 @@ class BasicTrainLoop():
         self.rec_count = 0
 
         # multi-gpu setting
-        if self.accelerator.is_main_process:
-            self.ema = EMA(0.995)
-            self.ema_model = copy.deepcopy(self.model).eval().requires_grad_(False)
+        self.ema = EMA(0.995)
+        self.ema_model = copy.deepcopy(self.model).eval().requires_grad_(False)
+        self.ema_checkpoint_load = False
 
     def log_update(self, mode, epoch: int = 0):
         # always unwrap model for safe access
@@ -105,9 +105,11 @@ class BasicTrainLoop():
         self.model.load_state_dict(checkpoint_dict["model"])
         self.optimizer.load_state_dict(checkpoint_dict["optimizer"])
         self.start_epoch = checkpoint_dict["epoch"]
-
-        if multi_gpu_enabled and self.accelerator.is_main_process:
+        if "ema_model" in checkpoint_dict and checkpoint_dict["ema_model"] is not None:
             self.ema_model.load_state_dict(checkpoint_dict["ema_model"])
+            self.ema_checkpoint_load = True
+        else:
+            self.ema_checkpoint_load = False
 
     def _calculate_reconstruction_loss(self, x, label):
         self.rec_count += 1
