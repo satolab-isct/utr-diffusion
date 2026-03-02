@@ -48,3 +48,4 @@ src_backup_*/
 .DS_Store
 Thumbs.db
 *.safetensors
+design_utr/
