@@ -2,16 +2,16 @@
 
 Official implementation of the paper:
 
-> UTR-Diffusion: Conditional Diffusion Modeling for Multi-objective and Constrained UTR Design  
+> **UTR-Diffusion: Conditional Diffusion Modeling for Multi-objective and Constrained UTR Design**  
 > ECCB 2026 Proceedings
 
 UTR-Diffusion is a diffusion-based generative framework for 5′ UTR sequence design that enables:
 
-- Continuous control of translation-related indicators:
+- **Continuous control of translation-related indicators**
   - Mean Ribosome Load (MRL)
   - Minimum Free Energy (MFE)
-- Explicit codon- or amino-acid constraints at user-specified positions
-- Multi-objective conditional generation
+- **Explicit codon- or amino-acid constraints** at user-specified positions
+- **Multi-objective conditional generation**
 
 ---
 
@@ -21,7 +21,7 @@ UTR-Diffusion supports:
 
 - Unconditional generation
 - Continuous conditional generation (MRL, MFE)
-- Constrained generation (codon / amino acid clamping)
+- Constrained generation (codon / amino-acid clamping)
 - Multi-label generation (MRL + MFE)
 - Evaluation pipeline (MRL/MFE prediction)
 
@@ -86,26 +86,20 @@ python design_utr.py \
   --device cuda:0
 ```
 
-Output:
+Output
 
 outputs/amino_demo.fasta
 
-outputs/amino_demo.csv ← contains predicted MRL/MFE for generated sequences
+outputs/amino_demo.csv (predicted MRL/MFE values)
 
-Note: --eval-repo should point to the local path of utr-diffusion-eval.
+⚠️ --eval-repo must point to the local path of utr-diffusion-eval.
 
-Arguments (Summary)
-
---mode: generation mode (amino, codon, or other supported modes)
-
---targets: "MRL,MFE" (two comma-separated continuous targets)
-
---amino: amino-acid constraints as pos:AA pairs (e.g., 5:R 26:L)
-
---out: output FASTA path
-
---device: cuda:0 or cpu
-
---do-eval: enable post-generation evaluation
-
---eval-repo: path to utr-diffusion-eval
+⚙️ Arguments (Summary)
+Argument	Description
+--mode	Generation mode (amino, codon, etc.)
+--targets	"MRL,MFE" continuous targets
+--amino	Amino-acid constraints (pos:AA, e.g., 5:R 26:L)
+--out	Output FASTA file path
+--device	cuda:0 or cpu
+--do-eval	Enable post-generation evaluation
+--eval-repo	Path to utr-diffusion-eval
