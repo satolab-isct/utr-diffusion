@@ -34,7 +34,7 @@ def build_parser():
         default=None,
         help="Amino constraints as 'pos:AA'. Example: --amino 2:M 5:F ...",
     )
-    p.add_argument("--out", type=str, default='design_utr/test.fasta', help="Output fasta path")
+    p.add_argument("--out", type=str, default='outputs/amino_demo.fasta', help="Output fasta path")
     # Sampling hyperparams
     p.add_argument("--batch-size", type=int, default=100)
     p.add_argument("--cond-weight", type=float, default=2.0)
