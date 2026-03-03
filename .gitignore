@@ -48,3 +48,10 @@ src_backup_*/
 .DS_Store
 Thumbs.db
 *.safetensors
+
+# runtime outputs
+outputs/
+examples/
+*.fasta
+*.csv
+
