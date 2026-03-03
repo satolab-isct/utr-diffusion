@@ -96,10 +96,17 @@ outputs/amino_demo.csv (predicted MRL/MFE values)
 
 ⚙️ Arguments (Summary)
 Argument	Description
+
 --mode	Generation mode (amino, codon, etc.)
+
 --targets	"MRL,MFE" continuous targets
+
 --amino	Amino-acid constraints (pos:AA, e.g., 5:R 26:L)
+
 --out	Output FASTA file path
+
 --device	cuda:0 or cpu
+
 --do-eval	Enable post-generation evaluation
+
 --eval-repo	Path to utr-diffusion-eval
