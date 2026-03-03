@@ -40,7 +40,7 @@ conda env create -f environment.yml
 
 # activate
 conda activate utr-diffusion
-
+```
 ---
 
 ## Quick Start (CLI)
