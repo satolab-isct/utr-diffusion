@@ -43,31 +43,39 @@ conda activate utr-diffusion
 ```
 ---
 
-## Quick Start (CLI)
-1) Generate constrained sequences (amino-acid mode)
+## 🚀 Quick Start (CLI)
+### 1）Generate constrained sequences (amino-acid mode)
 
 Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions.
 
+```bash
 python design_utr.py \
   --mode amino \
   --targets "8.0,-2.0" \
   --amino 5:R 26:L \
   --out outputs/amino_demo.fasta \
   --device cuda:0
+```
 
 Output:
 
 outputs/amino_demo.fasta
 
-Optional: Evaluate generated sequences (MRL/MFE prediction)
+### 2）📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
 
-If you want to evaluate MRL/MFE of generated sequences (i.e., produce a CSV report), you need an additional repository:
+To predict MRL/MFE for generated sequences (i.e., produce a CSV report), you need an additional repository:
 
 utr-diffusion-eval (evaluation pipeline)
 
 Setup evaluation repository
+
+```bash
 git clone https://github.com/satolab-isct/utr-diffusion-eval ../UTR-Diffusion-eval
+```
+
 Generate + evaluate in one command
+
+```bash
 python design_utr.py \
   --mode amino \
   --targets "8.0,-2.0" \
@@ -76,6 +84,7 @@ python design_utr.py \
   --do-eval \
   --eval-repo ../UTR-Diffusion-eval \
   --device cuda:0
+```
 
 Output:
 
