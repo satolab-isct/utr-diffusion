@@ -52,7 +52,9 @@ https://huggingface.co/Satolab-isct/utr-diffusion-checkpoint
 You can download the main checkpoint directly:
 
 ```bash
-wget https://huggingface.co/Satolab-isct/utr-diffusion-checkpoint/resolve/main/checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt
+mkdir -p checkpoints
+wget -O checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt \
+  https://huggingface.co/Satolab-isct/utr-diffusion-checkpoint/resolve/main/checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt
 ```
 ---
 
