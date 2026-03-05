@@ -59,9 +59,30 @@ wget -O checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0
 ---
 
 ## 🚀 Quick Start (CLI)
-### 1）Generate constrained sequences (amino-acid mode)
+### 1) Generate sequences with codon constraints
 
-Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions.
+Example: generate sequences targeting MRL=6.0, MFE=-10.0 with codon constraints at specific positions
+(codon start positions; e.g., pos 8 means nucleotides [8–10]).
+
+> Note: You can use either `T` or `U` in codons (inputs with `U` will be converted to `T` internally).
+
+```bash
+python design_utr.py \
+  --mode codon \
+  --targets "6.0,-10.0" \
+  --codon 8:CGC 32:UCA \
+  --out outputs/codon_demo.fasta \
+  --device cuda:0
+```
+
+Output:
+
+outputs/amino_demo.fasta
+
+### 2）Generate sequences with amino-acid constraints
+
+Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions
+(amino start positions; e.g., pos 5 means nucleotides [5–7]).
 
 ```bash
 python design_utr.py \
@@ -76,7 +97,7 @@ Output:
 
 outputs/amino_demo.fasta
 
-### 2）📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
+### 3）📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
 
 To predict MRL/MFE for generated sequences (i.e., produce a CSV report), you need an additional repository:
 
