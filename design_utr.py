@@ -9,6 +9,8 @@ import argparse
 from pathlib import Path
 import os, sys, subprocess
 from typing import Optional
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def build_parser():
     p = argparse.ArgumentParser(
@@ -72,6 +74,8 @@ def parse_index_value_pairs(items: list[str], value_name: str) -> tuple[list[int
         p, v = it.split(":", 1)
         p_i = int(p)
         v = v.strip().upper()
+        if value_name == 'codon':
+            v = v.replace('U', 'T')
         pos_list.append(p_i)
         val_list.append(v)
     return pos_list, val_list
@@ -154,7 +158,6 @@ def run_evaluator(
     print(f"[Eval] OK -> {out_csv}", flush=True)
     return out_csv
 
-
 def design_utr(args):
     device = torch.device(args.device if (args.device != "cuda" or torch.cuda.is_available()) else "cpu")
 
@@ -203,11 +206,9 @@ def design_utr(args):
     print(f"[OK] Saved: {out_path}")
 
     if args.do_eval:
-        run_evaluator(
-            fasta_path=args.out,
-            eval_repo=args.eval_repo,
-            device=args.device,
-        )
+        out_csv = run_evaluator(fasta_path=args.out, eval_repo=args.eval_repo, device=args.device)
+        from src.plot.visualization import read_csv_and_plot
+        read_csv_and_plot(out_csv, args)
 
 if __name__ == "__main__":
     args = build_parser().parse_args()
