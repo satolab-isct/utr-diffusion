@@ -83,7 +83,7 @@ utr-diffusion-eval (evaluation pipeline)
 Setup evaluation repository
 
 ```bash
-git clone https://github.com/satolab-isct/utr-diffusion-eval ../UTR-Diffusion-eval
+git clone https://github.com/satolab-isct/utr-diffusion-eval ../utr-diffusion-eval
 ```
 
 Generate + evaluate in one command
@@ -95,7 +95,7 @@ python design_utr.py \
   --amino 5:R 26:L \
   --out outputs/amino_demo.fasta \
   --do-eval \
-  --eval-repo ../UTR-Diffusion-eval \
+  --eval-repo ../utr-diffusion-eval \
   --device cuda:0
 ```
 
