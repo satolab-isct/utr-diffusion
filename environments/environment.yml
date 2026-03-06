@@ -1,31 +1,27 @@
-name: src
+name: utr-diffusion
 channels:
-    - nodefaults
-    - pytorch
-    - nvidia
-    - conda-forge
-    - bioconda
+  - nodefaults
+  - pytorch
+  - nvidia
+  - conda-forge
+  - bioconda
+
 dependencies:
-    - python=3.10
-    - accelerate
-    - jupyterlab
-    - matplotlib
-    - pandas
-    - seaborn
-    - einops
-    - wandb
-    - scipy
-    - genomepy
-    - sourmash-minimal
-    - bedtools
-    - biopython
-    - pyBigWig
-    - gtfparse
-    - gimmemotifs
-    - pytorch
-    - pytorch-cuda=12.1
-    - torchvision
-    - pip
-    - pip:
-        - tensorflow[and-cuda]
-        - memory-efficient-attention-pytorch
+  - python=3.10
+  - accelerate
+  - matplotlib
+  - numpy
+  - pandas
+  - scipy
+  - einops
+  - biopython
+  - pytorch
+  - pytorch-cuda=12.1
+  - torchvision
+  - pip
+  - logomaker
+  - wandb
+  - genomepy
+  - bedtools
+  - pip:
+      - memory-efficient-attention-pytorch
