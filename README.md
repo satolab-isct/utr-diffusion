@@ -36,7 +36,7 @@ git clone https://github.com/satolab-isct/utr-diffusion
 cd utr-diffusion
 
 # create conda environment
-conda env create -f environment.yml
+conda env create -f environments/environment.yml
 
 # activate
 conda activate utr-diffusion
