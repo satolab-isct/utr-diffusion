@@ -77,7 +77,7 @@ python design_utr.py \
 
 Output:
 
-outputs/amino_demo.fasta
+outputs/codon_demo.fasta
 
 ### 2）Amino-acid-constrained example
 
@@ -146,7 +146,7 @@ outputs/codon_demo_codon_constraint.jpg — position-wise nucleotide probability
 python design_utr.py \
   --mode amino \
   --targets "7.2,-13.6" \
-  --amino 5:R 14:A 23:L 29:G 44:S\
+  --amino 5:R 14:A 23:L 29:G 44:S \
   --out outputs/amino_demo.fasta \
   --do-eval \
   --eval-repo ../utr-diffusion-eval \
@@ -175,18 +175,15 @@ outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability
 
 
 ### ⚙️ Arguments (Summary)
-Argument	Description
 
---mode	Generation mode (amino, codon, etc.)
-
---targets	"MRL,MFE" continuous targets
-
---amino	Amino-acid constraints (pos:AA, e.g., 5:R 26:L)
-
---out	Output FASTA file path
-
---device	cuda:0 or cpu
-
---do-eval	Enable post-generation evaluation
+| Argument | Description |
+|--------|-------------|
+| --mode | Generation mode (`codon`, `amino`) |
+| --targets | Target values `"MRL,MFE"` |
+| --amino | Amino-acid constraints (e.g., `5:R 26:L`) |
+| --out | Output FASTA file |
+| --device | `cuda:0` or `cpu` |
+| --do-eval | Enable evaluation pipeline |
+| --eval-repo | Path to `utr-diffusion-eval` |
 
 --eval-repo	Path to utr-diffusion-eval
