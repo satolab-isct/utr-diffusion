@@ -15,7 +15,7 @@ UTR-Diffusion is a diffusion-based generative framework for 5′ UTR sequence de
 
 ---
 
-## 🔬 Overview
+# 🔬 Overview
 
 UTR-Diffusion supports:
 
@@ -27,7 +27,7 @@ UTR-Diffusion supports:
 
 ---
 
-## 📦 Installation (Conda)
+# 📦 Installation (Conda)
 
 We recommend installing dependencies via the provided `environment.yml`.
 
@@ -43,7 +43,7 @@ conda activate utr-diffusion
 ```
 ---
 
-## Pretrained Checkpoints
+# Pretrained Checkpoints
 
 The pretrained UTR-Diffusion model weights are hosted on Hugging Face:
 
@@ -58,8 +58,8 @@ wget -O checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0
 ```
 ---
 
-## 🚀 Quick Start (CLI)
-### 1) Codon-constrained example
+# 🚀 Quick Start (CLI)
+## 1) Codon-constrained example
 
 Example: generate sequences targeting MRL=6.0, MFE=-10.0 with codon constraints at specific positions
 (codon start positions; e.g., pos 8 means nucleotides [8–10]).
@@ -79,7 +79,7 @@ Output:
 
 outputs/codon_demo.fasta
 
-### 2）Amino-acid-constrained example
+## 2）Amino-acid-constrained example
 
 Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions
 (amino start positions; e.g., pos 5 means nucleotides [5–7]).
@@ -97,7 +97,7 @@ Output:
 
 outputs/amino_demo.fasta
 
-## 📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
+# 📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
 
 To predict MRL and MFE for generated sequences and produce a CSV report, you need the additional evaluation repository:
 
@@ -110,7 +110,7 @@ git clone https://github.com/satolab-isct/utr-diffusion-eval ../utr-diffusion-ev
 ```
 
 Generate and evaluate in one command
-### 1) Codon-constrained example
+## 1) Codon-constrained example
 
 ```bash
 python design_utr.py \
@@ -123,7 +123,7 @@ python design_utr.py \
   --device cuda:0
 ```
 
-Outputs:
+### Outputs:
 
 outputs/codon_demo.fasta
 
@@ -133,7 +133,7 @@ outputs/codon_demo_dist.jpg — distribution on the MRL–MFE plane
 
 outputs/codon_demo_codon_constraint.jpg — position-wise nucleotide probability and Shannon entropy
 
-#### Example output figures
+### Example output figures
 
 <p align="center">
   <img src="outputs/codon_demo_dist.jpg" width="45%" />
@@ -141,7 +141,7 @@ outputs/codon_demo_codon_constraint.jpg — position-wise nucleotide probability
 </p>
 
 
-### 2) Amino-acid-constrained example
+## 2) Amino-acid-constrained example
 ```bash
 python design_utr.py \
   --mode amino \
@@ -153,7 +153,7 @@ python design_utr.py \
   --device cuda:0
 ```
 
-Outputs:
+### Outputs:
 
 outputs/amino_demo.fasta
 
@@ -163,7 +163,7 @@ outputs/amino_demo_dist.jpg — distribution on the MRL–MFE plane
 
 outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability and Shannon entropy
 
-#### Example output figures
+### Example output figures
 
 <p align="center">
   <img src="outputs/amino_demo_dist.jpg" width="45%" />
@@ -171,8 +171,7 @@ outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability
 </p>
 
 
-
-### ⚙️ Arguments (Summary)
+## ⚙️ Arguments (Summary)
 
 | Argument | Description |
 |--------|-------------|
