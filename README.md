@@ -171,8 +171,6 @@ outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability
 </p>
 
 
-⚠️ --eval-repo must point to the local path of utr-diffusion-eval.
-
 
 ### ⚙️ Arguments (Summary)
 
@@ -186,4 +184,4 @@ outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability
 | --do-eval | Enable evaluation pipeline |
 | --eval-repo | Path to `utr-diffusion-eval` |
 
---eval-repo	Path to utr-diffusion-eval
+⚠️ --eval-repo must point to the local path of utr-diffusion-eval.
