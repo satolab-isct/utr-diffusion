@@ -59,7 +59,7 @@ wget -O checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0
 ---
 
 ## 🚀 Quick Start (CLI)
-### 1) Generate sequences with codon constraints
+### 1) Codon-constrained example
 
 Example: generate sequences targeting MRL=6.0, MFE=-10.0 with codon constraints at specific positions
 (codon start positions; e.g., pos 8 means nucleotides [8–10]).
@@ -69,7 +69,7 @@ Example: generate sequences targeting MRL=6.0, MFE=-10.0 with codon constraints 
 ```bash
 python design_utr.py \
   --mode codon \
-  --targets "6.0,-10.0" \
+  --targets "4.0,-20.0" \
   --codon 8:CGC 32:UCA \
   --out outputs/codon_demo.fasta \
   --device cuda:0
@@ -79,7 +79,7 @@ Output:
 
 outputs/amino_demo.fasta
 
-### 2）Generate sequences with amino-acid constraints
+### 2）Amino-acid-constrained example
 
 Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions
 (amino start positions; e.g., pos 5 means nucleotides [5–7]).
@@ -97,11 +97,11 @@ Output:
 
 outputs/amino_demo.fasta
 
-### 3）📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
+## 📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
 
-To predict MRL/MFE for generated sequences (i.e., produce a CSV report), you need an additional repository:
+To predict MRL and MFE for generated sequences and produce a CSV report, you need the additional evaluation repository:
 
-utr-diffusion-eval (evaluation pipeline)
+- [utr-diffusion-eval](https://github.com/satolab-isct/utr-diffusion-eval)
 
 Setup evaluation repository
 
@@ -109,24 +109,67 @@ Setup evaluation repository
 git clone https://github.com/satolab-isct/utr-diffusion-eval ../utr-diffusion-eval
 ```
 
-Generate + evaluate in one command
+Generate and evaluate in one command
+### 1) Codon-constrained example
 
 ```bash
 python design_utr.py \
+  --mode codon \
+  --targets "5.9,-8.7" \
+  --codon 8:CGC 17:UCC 26:CGA 35:UCA \
+  --out outputs/codon_demo.fasta \
+  --do-eval \
+  --eval-repo ../utr-diffusion-eval \
+  --device cuda:0
+```
+
+Outputs:
+
+outputs/codon_demo.fasta
+
+outputs/codon_demo.csv — predicted MRL/MFE values
+
+outputs/codon_demo_dist.jpg — distribution on the MRL–MFE plane
+
+outputs/codon_demo_codon_constraint.jpg — position-wise nucleotide probability and Shannon entropy
+
+#### Example output figures
+
+<p align="center">
+  <img src="outputs/codon_demo_dist.jpg" width="45%" />
+  <img src="outputs/codon_demo_codon_constraint.jpg" width="45%" />
+</p>
+
+
+### 2) Amino-acid-constrained example
+```bash
+python design_utr.py \
   --mode amino \
-  --targets "8.0,-2.0" \
-  --amino 5:R 26:L \
+  --targets "7.2,-13.6" \
+  --amino 5:R 14:A 23:L 29:G 44:S\
   --out outputs/amino_demo.fasta \
   --do-eval \
   --eval-repo ../utr-diffusion-eval \
   --device cuda:0
 ```
 
-Output
+Outputs:
 
 outputs/amino_demo.fasta
 
-outputs/amino_demo.csv (predicted MRL/MFE values)
+outputs/amino_demo.csv — predicted MRL/MFE values
+
+outputs/amino_demo_dist.jpg — distribution on the MRL–MFE plane
+
+outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability and Shannon entropy
+
+#### Example output figures
+
+<p align="center">
+  <img src="outputs/amino_demo_dist.jpg" width="45%" />
+  <img src="outputs/amino_demo_amino_constraint.jpg" width="45%" />
+</p>
+
 
 ⚠️ --eval-repo must point to the local path of utr-diffusion-eval.
 
