@@ -173,7 +173,8 @@ outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability
 
 ⚠️ --eval-repo must point to the local path of utr-diffusion-eval.
 
-⚙️ Arguments (Summary)
+
+### ⚙️ Arguments (Summary)
 Argument	Description
 
 --mode	Generation mode (amino, codon, etc.)
