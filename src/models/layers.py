@@ -1,11 +1,8 @@
 import math
-from typing import Optional
-
 import torch
 import torch.nn.functional as F
 from einops import rearrange
 from torch import einsum, nn
-
 from src.utils.utils import default, exists, l2norm
 
 

@@ -1,12 +1,6 @@
 import torch
-from einops import rearrange
-from collections import defaultdict
-from scipy.stats import wasserstein_distance
-from torch.backends.opt_einsum import strategy
-
 from .scheduler import get_schedule_jump
 from tqdm.auto import tqdm
-from .utils import get_amino_images_for_alter_codons, build_gt_from_image_and_pos
 
 schedule_jump_params = {
     'jump_length': 10,  # jump length for each jump
@@ -14,7 +8,6 @@ schedule_jump_params = {
     'n_sample': 1,
     't_T': 200
 }
-
 
 # this repaint sampler works for continuous multi-label generation
 class RePaint_Codon_Continuous_Multi_Labels:

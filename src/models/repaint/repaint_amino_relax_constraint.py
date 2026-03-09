@@ -1,8 +1,6 @@
 import torch
 from einops import rearrange
-from lxml.objectify import NoneElement
 from tqdm.auto import tqdm
-
 from src.models.repaint.scheduler import get_schedule_jump
 from src.models.repaint.utils import get_amino_images_for_alter_codons, build_gt_from_image_and_pos
 

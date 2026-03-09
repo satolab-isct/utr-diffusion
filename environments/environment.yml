@@ -16,7 +16,6 @@ dependencies:
   - einops
   - biopython
   - pytorch
-  - pytorch-cuda=12.1
   - torchvision
   - pip
   - logomaker

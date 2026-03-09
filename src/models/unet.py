@@ -1,11 +1,5 @@
-import itertools
 from functools import partial
-from typing import Optional
-
-import torch
 from memory_efficient_attention_pytorch import Attention as EfficientAttention
-from tensorflow.python.layers.core import dropout
-
 from src.models.layers import *
 
 

@@ -13,21 +13,12 @@
 # limitations under the License.
 #
 # This repository was forked from https://github.com/openai/guided-diffusion, which is under the MIT license
-from os import replace
-
 import yaml
 import os
 from PIL import Image
 import random
-
-from markdown_it.rules_inline import image
-from scipy.signal import wiener
-
 from .amino_codon_table import get_codons_for_amino, get_amino_for_codon
-import numpy as np
 import torch
-
-from src.models.repaint.amino_codon_table import AMINO_TO_CODONS
 
 nucleotides = ['A', 'C', 'G', 'T']
 

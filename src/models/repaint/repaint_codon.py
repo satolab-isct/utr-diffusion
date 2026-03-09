@@ -1,5 +1,4 @@
 import torch
-from collections import defaultdict
 from .scheduler import get_schedule_jump
 from tqdm.auto import tqdm
 

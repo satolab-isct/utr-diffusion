@@ -1,9 +1,5 @@
 import torch
 from einops import rearrange
-from collections import defaultdict
-from scipy.stats import wasserstein_distance
-from torch.backends.opt_einsum import strategy
-
 from .scheduler import get_schedule_jump
 from tqdm.auto import tqdm
 from .utils import get_amino_images_for_alter_codons, build_gt_from_image_and_pos
