@@ -50,7 +50,6 @@ Thumbs.db
 *.safetensors
 
 # runtime outputs
-outputs/
 examples/
 *.fasta
 *.csv
