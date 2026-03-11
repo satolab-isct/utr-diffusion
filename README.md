@@ -36,7 +36,7 @@ git clone https://github.com/satolab-isct/utr-diffusion
 cd utr-diffusion
 
 # create conda environment
-conda env create -f config/environment.yaml
+conda env create -f environment.yaml
 
 # activate
 conda activate utr-diffusion
@@ -99,17 +99,19 @@ outputs/amino_demo.fasta
 
 # 📊 Optional: Evaluate generated sequences (MRL/MFE prediction)
 
-To predict MRL and MFE for generated sequences and produce a CSV report, you need the additional evaluation repository:
+Evaluation is bundled directly in this repository.
+The standalone companion repository utr-diffusion-eval is also available, but no separate installation is required for the integrated workflow here.
 
-- [utr-diffusion-eval](https://github.com/satolab-isct/utr-diffusion-eval)
-
-Setup evaluation repository
+MFE prediction relies on ViennaRNA. Please make sure RNAfold is installed and available in your PATH:
 
 ```bash
-git clone https://github.com/satolab-isct/utr-diffusion-eval ../utr-diffusion-eval
+command -v RNAfold
+RNAfold --version
+```
+If these commands work, the following evaluation CLI should run normally.
+
 ```
 
-Generate and evaluate in one command
 ## 1) Codon-constrained example
 
 ```bash
@@ -130,13 +132,13 @@ outputs/codon_demo.csv — predicted MRL/MFE values
 
 outputs/codon_demo_dist.jpg — distribution on the MRL–MFE plane
 
-outputs/codon_demo_codon_constraint.jpg — position-wise nucleotide probability and Shannon entropy
+outputs/codon_demo_constraint.jpg — position-wise nucleotide probability and Shannon entropy
 
 ### Example output figures
 
 <p align="center">
   <img src="outputs/codon_demo_dist.jpg" width="45%" />
-  <img src="outputs/codon_demo_codon_constraint.jpg" width="45%" />
+  <img src="outputs/codon_demo_constraint.jpg" width="45%" />
 </p>
 
 
@@ -159,13 +161,13 @@ outputs/amino_demo.csv — predicted MRL/MFE values
 
 outputs/amino_demo_dist.jpg — distribution on the MRL–MFE plane
 
-outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability and Shannon entropy
+outputs/amino_demo_constraint.jpg — position-wise nucleotide probability and Shannon entropy
 
 ### Example output figures
 
 <p align="center">
   <img src="outputs/amino_demo_dist.jpg" width="45%" />
-  <img src="outputs/amino_demo_amino_constraint.jpg" width="45%" />
+  <img src="outputs/amino_demo_constraint.jpg" width="45%" />
 </p>
 
 
@@ -179,6 +181,3 @@ outputs/amino_demo_amino_constraint.jpg — position-wise nucleotide probability
 | --out | Output FASTA file |
 | --device | `cuda:0` or `cpu` |
 | --do-eval | Enable evaluation pipeline |
-| --eval-repo | Path to `utr-diffusion-eval` |
-
-⚠️ --eval-repo must point to the local path of utr-diffusion-eval.
