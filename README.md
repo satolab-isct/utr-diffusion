@@ -136,7 +136,7 @@ outputs/codon_demo_constraint.jpg — position-wise nucleotide probability and S
 ### Example output figures
 
 <p align="center">
-  <img src="outputs/codon_demo_dist.jpg" width="45%" />
+
   <img src="outputs/codon_demo_constraint.jpg" width="45%" />
 </p>
 
@@ -165,6 +165,7 @@ outputs/amino_demo_constraint.jpg — position-wise nucleotide probability and S
 ### Example output figures
 
 <p align="center">
+    <img src="outputs/amino_demo_dist.jpg" width="45%" />
     <img src="outputs/amino_demo_constraint.jpg" width="45%" />
 </p>
 
