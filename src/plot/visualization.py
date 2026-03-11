@@ -370,7 +370,7 @@ def plot_codon_constraint_duopanel(seqs, codon_pos=None, savepath=None, title=No
 
 def plot_MRL_MFE_scatter(mrls, mfes, savepath=None, title=None):
     plt.figure(figsize=figure_size)
-    plt.scatter(mrls, mfes, s=6, alpha=0.35, label="Generated (pred)")
+    plt.scatter(mrls, mfes, s=6, alpha=0.35, label="Generated")
     plt.scatter([mrls.mean()], [mfes.mean()], s=80, marker='*', label="Mean")
     plt.xlabel('Predicted MRL', fontsize=label_fontsize)
     plt.ylabel('Predicted MFE', fontsize=label_fontsize)
@@ -391,15 +391,19 @@ def read_csv_and_plot(csv_file, args):
     else:
         raise ValueError(f"--targets expects 'MRL,MFE' or two values. Got: {args.targets}")
     tgt_mrl, tgt_mfe = float(tgt_mrl), float(tgt_mfe)
+    constraint_text = args.codon if args.mode == 'codon' else args.amino
     plot_MRL_MFE_scatter(mrls=mrls, mfes=mfes, savepath=args.out.replace('.fasta','_dist.jpg'),
-                         title=f'MRL-MFE Distribution of generated sequences(n={args.batch_size})\n target on MRL={tgt_mrl}, MFE={tgt_mfe}')
+                         title=f'MRL-MFE Distribution of Generated Sequences(n={args.batch_size})\n'
+                               f' target on MRL={tgt_mrl}, MFE={tgt_mfe}\n'
+                               f' {args.mode} constraints: {constraint_text}')
+
     seqs = data['Sequence'].astype(str).tolist()
     if args.mode == 'codon':
         codon_pos = [int(x.split(":")[0]) for x in args.codon]
-        plot_codon_constraint_duopanel(seqs=seqs, codon_pos=codon_pos, savepath=args.out.replace('.fasta','_codon_constraint.jpg'),
-                                       title='Codon Constrained Generation')
+        plot_codon_constraint_duopanel(seqs=seqs, codon_pos=codon_pos, savepath=args.out.replace('.fasta','_constraint.jpg'),
+                                       title=f'Codon Constraints: {constraint_text}')
     if args.mode == 'amino':
         amino_pos  = [int(x.split(":")[0]) for x in args.amino]
         amino_list = [x.split(":")[1].upper() for x in args.amino]
-        plot_amino_constraint_tripanel(seqs=seqs, amino=amino_list, amino_pos=amino_pos, savepath=args.out.replace('.fasta','_amino_constraint.jpg'),
-                                       title='Amino-acid Constrained Generation')
+        plot_amino_constraint_tripanel(seqs=seqs, amino=amino_list, amino_pos=amino_pos, savepath=args.out.replace('.fasta','_constraint.jpg'),
+                                       title=f'Amino-acid Constraints: {constraint_text}')

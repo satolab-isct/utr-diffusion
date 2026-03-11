@@ -7,10 +7,7 @@ from src.models.repaint.utils import bulid_gt_and_mask_from_codons, write_fasta
 import torch
 import argparse
 from pathlib import Path
-import os, sys, subprocess
-from typing import Optional
-import pandas as pd
-import matplotlib.pyplot as plt
+import sys, subprocess
 
 def build_parser():
     p = argparse.ArgumentParser(
@@ -108,52 +105,41 @@ def build_diffusion(args, device):
 
 def run_evaluator(
     fasta_path: str,
-    eval_repo: Optional[str] = None,
+    eval_dir: str = 'evaluation',
+    eval_script: str = 'evaluate.py',
     device: str = "cpu",
-    model_path: Optional[str] = None,
-    inp_len: int = 50,
+    model_path: str = 'Model/model.pt',
     batch_toks: int = 4096 * 8,
     seed: int = 1337,
     mfe_batch: int = 100,
 ) -> str:
     """
-    Run UTR-Diffusion-eval/evaluate.py via subprocess.
-    Assumes RNAfold exists and evaluator has a correct default --rnafold-path.
+    Run evaluation/evaluate.py via subprocess.
+    Assumes RNAfold is available in PATH.
     Returns the output csv path (same dir, .fasta -> .csv).
     """
 
     fasta_path = str(Path(fasta_path).resolve())
-
-    # Resolve evaluator repo path
-    if eval_repo is None:
-        raise ValueError("--eval-repo must be provided (path to UTR-Diffusion-eval).")
-    eval_repo = str(Path(eval_repo).resolve())
-
-    eval_script = str(Path(eval_repo) / "evaluate.py")
-    if not Path(eval_script).exists():
-        raise FileNotFoundError(f"[Eval] evaluate.py not found: {eval_script}")
-
-    # output file is evaluator's convention
     out_csv = fasta_path.replace(".fasta", ".csv")
 
+    # Default to the bundled evaluator under this repo
+    eval_path = Path(eval_dir) / eval_script
+    if not eval_path.exists():
+        raise FileNotFoundError(f"[Eval] evaluate.py not found: {eval_path}")
+
     cmd = [
-        sys.executable,          # use current env python
+        sys.executable,
         eval_script,
         "--fasta", fasta_path,
+        "--model", model_path,
         "--device", device,
         "--batch-toks", str(batch_toks),
         "--seed", str(seed),
         "--mfe-batch", str(mfe_batch),
     ]
 
-    # optionally override model path (otherwise evaluator default Prediction/model.pt)
-    if model_path is not None:
-        cmd += ["--model", str(model_path)]
-
     print("[Eval] running:", " ".join(cmd), flush=True)
-
-    # Run inside eval_repo so relative paths like Prediction/model.pt work
-    subprocess.run(cmd, cwd=eval_repo, check=True)
+    subprocess.run(cmd, cwd=str(eval_dir), check=True)
 
     print(f"[Eval] OK -> {out_csv}", flush=True)
     return out_csv
@@ -206,7 +192,7 @@ def design_utr(args):
     print(f"[OK] Saved: {out_path}")
 
     if args.do_eval:
-        out_csv = run_evaluator(fasta_path=args.out, eval_repo=args.eval_repo, device=args.device)
+        out_csv = run_evaluator(fasta_path=args.out, device=args.device)
         from src.plot.visualization import read_csv_and_plot
         read_csv_and_plot(out_csv, args)
 
