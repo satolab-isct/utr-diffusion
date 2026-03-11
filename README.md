@@ -29,7 +29,7 @@ UTR-Diffusion supports:
 
 # 📦 Installation (Conda)
 
-We recommend installing dependencies via the provided `environment.yml`.
+We recommend installing dependencies via the provided `environment.yaml`.
 
 ```bash
 git clone https://github.com/satolab-isct/utr-diffusion
