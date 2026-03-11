@@ -63,7 +63,7 @@ wget -O checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0
 ## 1) Codon-constrained example
 
 Example: generate sequences targeting MRL=4.0, MFE=-20.0 with codon constraints at specific positions
-(codon start positions; e.g., pos 8 means nucleotides [8–10]).
+(codon start positions; e.g., pos 8 means the codon starting at nucleotide 8, covering positions 8–10)
 
 > Note: You can use either `T` or `U` in codons (inputs with `U` will be converted to `T` internally).
 
@@ -83,7 +83,7 @@ outputs/codon_demo.fasta
 ## 2) Amino-acid-constrained example
 
 Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions
-(amino start positions; e.g., pos 5 means nucleotides [5–7]).
+(amino start positions; e.g., pos 5 means the codon starting at nucleotide 8, covering positions 5–7).
 
 ```bash
 python design_utr.py \
