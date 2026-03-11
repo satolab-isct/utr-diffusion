@@ -56,12 +56,13 @@ mkdir -p checkpoints
 wget -O checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt \
   https://huggingface.co/Satolab-isct/utr-diffusion-checkpoint/resolve/main/checkpoints/MRL_MFE_967k_ep_2k_ts_200_beta_0.01_cond_1_uncond_0.2_drop_0.2_lr_1e-4_at_2000epoch.pt
 ```
+
 ---
 
 # 🚀 Quick Start (CLI)
 ## 1) Codon-constrained example
 
-Example: generate sequences targeting MRL=6.0, MFE=-10.0 with codon constraints at specific positions
+Example: generate sequences targeting MRL=4.0, MFE=-20.0 with codon constraints at specific positions
 (codon start positions; e.g., pos 8 means nucleotides [8–10]).
 
 > Note: You can use either `T` or `U` in codons (inputs with `U` will be converted to `T` internally).
@@ -79,7 +80,7 @@ Output:
 
 outputs/codon_demo.fasta
 
-## 2）Amino-acid-constrained example
+## 2) Amino-acid-constrained example
 
 Example: generate sequences targeting MRL=8.0, MFE=-2.0 with amino-acid constraints at specific positions
 (amino start positions; e.g., pos 5 means nucleotides [5–7]).
@@ -102,15 +103,13 @@ outputs/amino_demo.fasta
 Evaluation is bundled directly in this repository.
 The standalone companion repository utr-diffusion-eval is also available, but no separate installation is required for the integrated workflow here.
 
-MFE prediction relies on ViennaRNA. Please make sure RNAfold is installed and available in your PATH:
+MFE prediction relies on ViennaRNA. Please make sure `RNAfold` is installed and available in your PATH.
 
 ```bash
 command -v RNAfold
 RNAfold --version
 ```
 If these commands work, the following evaluation CLI should run normally.
-
-```
 
 ## 1) Codon-constrained example
 
@@ -170,6 +169,7 @@ outputs/amino_demo_constraint.jpg — position-wise nucleotide probability and S
   <img src="outputs/amino_demo_constraint.jpg" width="45%" />
 </p>
 
+---
 
 ## ⚙️ Arguments (Summary)
 
@@ -177,6 +177,7 @@ outputs/amino_demo_constraint.jpg — position-wise nucleotide probability and S
 |--------|-------------|
 | --mode | Generation mode (`codon`, `amino`) |
 | --targets | Target values `"MRL,MFE"` |
+| `--codon` | Codon constraints (e.g., `8:CGC`) |
 | --amino | Amino-acid constraints (e.g., `5:R 26:L`) |
 | --out | Output FASTA file |
 | --device | `cuda:0` or `cpu` |
