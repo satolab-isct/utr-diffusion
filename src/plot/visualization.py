@@ -394,8 +394,7 @@ def read_csv_and_plot(csv_file, args):
     constraint_text = args.codon if args.mode == 'codon' else args.amino
     plot_MRL_MFE_scatter(mrls=mrls, mfes=mfes, savepath=args.out.replace('.fasta','_dist.jpg'),
                          title=f'MRL-MFE Distribution of Generated Sequences(n={args.batch_size})\n'
-                               f' target on MRL={tgt_mrl}, MFE={tgt_mfe}\n'
-                               f' {args.mode} constraints: {constraint_text}')
+                               f' target on MRL={tgt_mrl}, MFE={tgt_mfe}')
 
     seqs = data['Sequence'].astype(str).tolist()
     if args.mode == 'codon':
