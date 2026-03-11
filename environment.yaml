@@ -10,7 +10,7 @@ dependencies:
   - python=3.10
   - accelerate
   - matplotlib
-  - numpy
+  - numpy=1.26
   - pandas
   - scipy
   - einops
