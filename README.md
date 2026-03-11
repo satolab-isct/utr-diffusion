@@ -119,7 +119,6 @@ python design_utr.py \
   --codon 8:CGC 17:UCC 26:CGA 35:UCA \
   --out outputs/codon_demo.fasta \
   --do-eval \
-  --eval-repo ../utr-diffusion-eval \
   --device cuda:0
 ```
 
@@ -149,7 +148,6 @@ python design_utr.py \
   --amino 5:R 14:A 23:L 29:G 44:S \
   --out outputs/amino_demo.fasta \
   --do-eval \
-  --eval-repo ../utr-diffusion-eval \
   --device cuda:0
 ```
 
